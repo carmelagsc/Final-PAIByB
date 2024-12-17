@@ -36,15 +36,6 @@ if opcion == "Cargar Imagen CT":
     if imagen is not None:
         st.session_state.imagen = imagen
         st.image(imagen, caption="Imagen cargada")
-        st.markdown(
-        f"""
-        <div style="display: flex; justify-content: center;">
-            <img src="data:image/png;base64,{imagen.getvalue().hex()}" 
-                 style="max-width: 100%; height: auto;"/>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
     else:
         if st.session_state.imagen is not None:
             st.image(st.session_state.imagen, caption="Imagen cargada desde la sesión")
@@ -56,18 +47,7 @@ elif opcion == "Clasificación":
     if st.session_state.imagen is not None:
             # Mostrar la imagen cargada en la sección de Análisis
             st.subheader("Imagen cargada:")
-            st.image(st.session_state.imagen, caption="Imagen para clasificar")
-            st.markdown(
-                 f"""
-                        <div style="display: flex; justify-content: center;">
-                            <img src="data:image/png;base64,{st.session_state.imagen.getvalue().hex()}" 
-                                style="max-width: 100%; height: auto;"/>
-                        </div>
-                        """, 
-                        unsafe_allow_html=True
-                    )
-            
-            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAa\n", st.session_state.imagen)
+            a=st.image(st.session_state.imagen, caption="Imagen para clasificar")
             tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
             tfile.write(st.session_state.imagen.read())
             imagen = cv2.imread(tfile.name)
@@ -75,7 +55,22 @@ elif opcion == "Clasificación":
             #imagen=np.array(image)
             print("\n", imagen)
             clase, probabilidad = Clasificador.clasificador(imagen)
-            st.text(f"Clasificación: {clase} \n Probabilidad: {int(probabilidad*100)}%")
+            st.markdown(
+                    f"""
+                    <div style="
+                        background-color: #8F00FF; 
+                        padding: 15px; 
+                        border-radius: 10px; 
+                        text-align: center; 
+                        color: white; 
+                        font-size: 20px; 
+                        margin: auto;">
+                        <b>Clasificación:</b> {clase} <br>
+                        <b>Confianza:</b> {round(probabilidad * 100,2)}%
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
     else:
         st.warning("Por favor, carga una imagen primero desde la sección 'Cargar Imagen CT'.")
             
@@ -119,11 +114,24 @@ elif opcion == "Análisis Calcificación":
                 col1, col2 = st.columns(2)
                 with col1:
                     st.image(riñon, caption="Riñon segmentado")
-                    st.text(f'El tamaño del corte del riñon es: {tam_r} mm2')
-
                 with col2:
                     st.image(piedra,caption="Piedra segmentada")
-                    st.text(f'El tamaño del corte del coágulo es: {tam_c} mm2' )
+                st.markdown(
+                    f"""
+                    <div style="
+                        background-color: #8F00FF; 
+                        padding: 15px; 
+                        border-radius: 10px; 
+                        text-align: center; 
+                        color: white; 
+                        font-size: 20px; 
+                        margin: auto;">
+                        <b>Riñon:</b> {round(tam_r, 2)} mm2<br>
+                        <b>Piedra:</b> {round(tam_c,2)} mm2
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
             else:
                 st.warning("No se realizó ninguna selección.")
         
