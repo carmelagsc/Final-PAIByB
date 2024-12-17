@@ -30,7 +30,7 @@ opcion = st.sidebar.radio("Opciones", ["Cargar Imagen CT", "Clasificaci처n","An�
 if opcion == "Cargar Imagen CT":
     st.header("Cargar Imagen CT")
     label = " *Cargar imagen CT* "
-    imagen = st.file_uploader(label, type=["png", "jpg", "jpeg"])
+    imagen = st.file_uploader(label, type=["jpg", "jpeg"])
     
     # Guardar la imagen en session_state si se carga
     if imagen is not None:
@@ -60,13 +60,21 @@ elif opcion == "Clasificaci처n":
             st.markdown(
                  f"""
                         <div style="display: flex; justify-content: center;">
-                            <img src="data:image/png;base64,{imagen.getvalue().hex()}" 
+                            <img src="data:image/png;base64,{st.session_state.imagen.getvalue().hex()}" 
                                 style="max-width: 100%; height: auto;"/>
                         </div>
                         """, 
                         unsafe_allow_html=True
                     )
-            clacificaci처n=Clasificador.clasificador(st.session_state.imagen)
+            
+            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAa\n", st.session_state.imagen)
+            tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+            tfile.write(st.session_state.imagen.read())
+            image = cv2.imread(tfile.name)
+            
+            imagen=np.array(image)
+            print("\n", imagen)
+            clacificaci처n=Clasificador.clasificador(imagen)
             st.text(clacificaci처n)
     else:
         st.warning("Por favor, carga una imagen primero desde la secci처n 'Cargar Imagen CT'.")
