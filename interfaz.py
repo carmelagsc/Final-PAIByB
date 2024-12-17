@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 import tempfile
 import analisis_stones
+import Clasificador
 
 st.title('Final de PAIByB')
 
@@ -23,7 +24,7 @@ def seleccionar_area_cv2(image_path):
 
 # Menú lateral
 st.sidebar.title("Menú")
-opcion = st.sidebar.radio("Opciones", ["Cargar Imagen CT", "Análisis Calcificación","Análisis Quiste", "Analisis Tumor"])
+opcion = st.sidebar.radio("Opciones", ["Cargar Imagen CT", "Clasificación","Análisis Calcificación","Análisis Quiste", "Analisis Tumor"])
 
 # Lógica para cargar imagen
 if opcion == "Cargar Imagen CT":
@@ -50,7 +51,30 @@ if opcion == "Cargar Imagen CT":
         else:
             st.write("Por favor, carga una imagen para visualizarla.")
 
-# Lógica de Análisis Calcificación con OpenCV
+elif opcion == "Clasificación":
+    st.header("Clasificación")
+    if st.session_state.imagen is not None:
+            # Mostrar la imagen cargada en la sección de Análisis
+            st.subheader("Imagen cargada:")
+            st.image(st.session_state.imagen, caption="Imagen para clasificar")
+            st.markdown(
+                 f"""
+                        <div style="display: flex; justify-content: center;">
+                            <img src="data:image/png;base64,{imagen.getvalue().hex()}" 
+                                style="max-width: 100%; height: auto;"/>
+                        </div>
+                        """, 
+                        unsafe_allow_html=True
+                    )
+            clacificación=Clasificador.clasificador(st.session_state.imagen)
+            st.text(clacificación)
+    else:
+        st.warning("Por favor, carga una imagen primero desde la sección 'Cargar Imagen CT'.")
+            
+            
+
+
+
 elif opcion == "Análisis Calcificación":
     st.header("Análisis Calcificación")
     if st.session_state.imagen is not None:
