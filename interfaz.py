@@ -13,17 +13,17 @@ if 'imagen' not in st.session_state:
 if 'seleccion' not in st.session_state:
     st.session_state.seleccion = None
 
-# Función para usar OpenCV y capturar una selección rectangular
+
 def seleccionar_area_cv2(image_path):
-    # Cargar imagen con OpenCV
+   
     image = cv2.imread(image_path)
     roi = cv2.selectROI("Seleccionar Área", image, fromCenter=False, showCrosshair=True)
     cv2.destroyAllWindows()
-    return roi  # Devuelve coordenadas (x, y, ancho, alto)
+    return roi  
 
 # Menú lateral
 st.sidebar.title("Menú")
-opcion = st.sidebar.radio("Navegación", ["Cargar Imagen CT", "Análisis"])
+opcion = st.sidebar.radio("Opciones", ["Cargar Imagen CT", "Análisis Calcificación","Análisis Quiste", "Analisis Tumor"])
 
 # Lógica para cargar imagen
 if opcion == "Cargar Imagen CT":
@@ -50,9 +50,9 @@ if opcion == "Cargar Imagen CT":
         else:
             st.write("Por favor, carga una imagen para visualizarla.")
 
-# Lógica de Análisis con OpenCV
-elif opcion == "Análisis":
-    st.header("Análisis")
+# Lógica de Análisis Calcificación con OpenCV
+elif opcion == "Análisis Calcificación":
+    st.header("Análisis Calcificación")
     if st.session_state.imagen is not None:
         # Mostrar la imagen cargada en la sección de Análisis
         st.subheader("Imagen cargada:")
