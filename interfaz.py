@@ -70,12 +70,12 @@ elif opcion == "Clasificación":
             print("AAAAAAAAAAAAAAAAAAAAAAAAAAAa\n", st.session_state.imagen)
             tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
             tfile.write(st.session_state.imagen.read())
-            image = cv2.imread(tfile.name)
+            imagen = cv2.imread(tfile.name)
             
-            imagen=np.array(image)
+            #imagen=np.array(image)
             print("\n", imagen)
-            clacificación=Clasificador.clasificador(imagen)
-            st.text(clacificación)
+            clase, probabilidad = Clasificador.clasificador(imagen)
+            st.text(f"Clasificación: {clase} \n Probabilidad: {int(probabilidad*100)}%")
     else:
         st.warning("Por favor, carga una imagen primero desde la sección 'Cargar Imagen CT'.")
             

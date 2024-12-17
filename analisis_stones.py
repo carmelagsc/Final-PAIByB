@@ -14,7 +14,7 @@ def clusters(recorte):
         pixels = recorte.reshape((-1, 1))  # Aplana la imagen en un arreglo de píxeles
 
         # Aplicar K-means (n_clusters=2 para dos clases, por ejemplo)
-        kmeans = KMeans(n_clusters=3, random_state=42)
+        kmeans = KMeans(n_clusters=4, random_state=42)
         kmeans.fit(pixels)
 
         # Obtener las etiquetas (clusters) y la imagen segmentada
@@ -46,6 +46,9 @@ def region_growing(image, seed, threshold=0):
                 if x < cols-1: stack.append((x+1, y))
                 if y > 0: stack.append((x, y-1))
                 if y < rows-1: stack.append((x, y+1))
+    kernel = np.ones((5, 5), np.uint8)
+        
+    region = cv2.dilate(region, kernel, iterations=1)
     return region
 
 
