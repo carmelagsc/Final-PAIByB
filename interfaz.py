@@ -58,7 +58,7 @@ elif opcion == "Clasificación":
             st.markdown(
                     f"""
                     <div style="
-                        background-color: #8F00FF; 
+                        background-color: rgba(143, 0, 255, 0.5); 
                         padding: 15px; 
                         border-radius: 10px; 
                         text-align: center; 
@@ -119,7 +119,7 @@ elif opcion == "Análisis Calcificación":
                 st.markdown(
                     f"""
                     <div style="
-                        background-color: #8F00FF; 
+                        background-color:  rgba(143, 0, 255, 0.5); 
                         padding: 15px; 
                         border-radius: 10px; 
                         text-align: center; 
