@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf 
 
 # Lista de clases (etiquetas)
-clases = ['Normal', 'Quiste', 'Tumor', 'Calcificación']
+clases = ['Normal', 'Quiste', 'Tumor', 'Piedra']
 
 def detectar_corte(imagen):
     print(f"Tamaño original de la imagen antes del procesamiento: {imagen.shape}")

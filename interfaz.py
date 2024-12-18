@@ -14,8 +14,12 @@ if 'imagen' not in st.session_state:
 if 'seleccion' not in st.session_state:
     st.session_state.seleccion = None
     # Inicializar session_state para la imagen, selección y habilitación de análisis si no existen
-if 'habilitar_analisis' not in st.session_state:
-    st.session_state.habilitar_analisis = False  # Por defecto, análisis deshabilitado
+if 'analisis_stone' not in st.session_state:
+    st.session_state.analisis_stone = False  # Por defecto, análisis deshabilitado
+if 'analisis_quiste' not in st.session_state:
+    st.session_state.analisis_quiste = False  # Por defecto, análisis deshabilitado
+if 'analisis_tumor' not in st.session_state:
+    st.session_state.analisis_tumor = False  # Por defecto, análisis deshabilitado
 
 
 def seleccionar_area_cv2(image_path):
@@ -29,8 +33,12 @@ def seleccionar_area_cv2(image_path):
 # Menú lateral
 st.sidebar.title("Menú")
 opciones_disponibles = ["Cargar Imagen CT", "Clasificación"]
-if st.session_state.habilitar_analisis:  # Habilitar análisis si la clasificación es "Stone"
-    opciones_disponibles.extend(["Análisis Calcificación", "Análisis Quiste", "Análisis Tumor"])
+if st.session_state.analisis_stone:  # Habilitar análisis si la clasificación es "Stone"
+    opciones_disponibles.extend(["Análisis Calcificación"])
+if st.session_state.analisis_quiste:  # Habilitar análisis si la clasificación es "Stone"
+    opciones_disponibles.extend([ "Análisis Quiste"])
+if st.session_state.analisis_tumor:  # Habilitar análisis si la clasificación es "Stone"
+    opciones_disponibles.extend(["Análisis Tumor"])
 opcion = st.sidebar.radio("Opciones", opciones_disponibles)
 #st.sidebar.title("Menú")
 #opcion = st.sidebar.radio("Opciones", ["Cargar Imagen CT", "Clasificación","Análisis Calcificación","Análisis Quiste", "Analisis Tumor"])
@@ -81,12 +89,26 @@ elif opcion == "Clasificación":
                     unsafe_allow_html=True
                 )
     
-            if clase == "Stone":
-                st.session_state.habilitar_analisis = True
-                st.success("Clasificación: Stone. El análisis de calcificación está habilitado.")
-            else:
-                st.session_state.habilitar_analisis = False
-                st.info("El análisis de calcificación no está disponible para esta clasificación.")
+            if clase == "Piedra":
+                st.session_state.analisis_stone = True
+                st.session_state.analisis_quiste = False
+                st.session_state.analisis_tumor = False
+                st.success("Clasificación: Calcificación. El análisis de calcificación está habilitado.")
+            if clase == "Quiste":
+                st.session_state.analisis_quiste = True
+                st.session_state.analisis_stone = False
+                st.session_state.analisis_tumor = False
+                st.success("Clasificación: Quiste. El análisis del quiste está habilitado.")
+            if clase == "Tumor":
+                st.session_state.analisis_tumor = True
+                st.session_state.analisis_quiste = False
+                st.session_state.analisis_stone = False
+                st.success("Clasificación: Tumor. El análisis de tumor está habilitado.")
+            if clase == "Normal":
+                st.session_state.analisis_stone = False
+                st.session_state.analisis_quiste = False
+                st.session_state.analisis_tumor = False
+                st.info("Esta todo bien.")
         
     
     
