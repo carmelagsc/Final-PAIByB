@@ -75,7 +75,7 @@ elif opcion == "Clasificación":
                         font-size: 20px; 
                         margin: auto;">
                         <b>Clasificación:</b> {clase} <br>
-                        <b>Confianza:</b> {round(probabilidad * 100,2)}%
+                        <b>Confianza:</b> {probabilidad * 100} %
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -127,6 +127,7 @@ elif opcion == "Análisis Calcificación":
                 tam_r=analisis_stones.tamaño_corte(px_riñon)
                 piedra, px_piedra= analisis_stones.region_growing_from_click(segmentacion, recorte)
                 tam_c=analisis_stones.tamaño_corte(px_piedra)
+                paso=analisis_stones.proba_piedra(tam_c)
                 col1, col2 = st.columns(2)
                 with col1:
                     st.image(riñon, caption="Riñon segmentado")
@@ -143,7 +144,8 @@ elif opcion == "Análisis Calcificación":
                         font-size: 20px; 
                         margin: auto;">
                         <b>Riñon:</b> {round(tam_r, 2)} mm2<br>
-                        <b>Piedra:</b> {round(tam_c,2)} mm2
+                        <b>Piedra:</b> {round(tam_c,2)} mm2<br>
+                        <b> {paso} 
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -154,7 +156,6 @@ elif opcion == "Análisis Calcificación":
 
         # Mostrar selección previa si existe
         if st.session_state.seleccion:
-            st.write(f"Selección guardada: {st.session_state.seleccion}")
             recorte=st.session_state.seleccion
             segmentacion=analisis_stones.clusters(recorte)
             riñon, px_riñon= analisis_stones.region_growing_from_click(segmentacion, recorte)
