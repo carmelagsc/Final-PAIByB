@@ -1,10 +1,9 @@
-import os
 import cv2
 import numpy as np
 import tensorflow as tf 
 
 # Lista de clases (etiquetas)
-clases = ['Normal', 'Cyst', 'Tumor', 'Stone']
+clases = ['Normal', 'Quiste', 'Tumor', 'Calcificación']
 
 def detectar_corte(imagen):
     print(f"Tamaño original de la imagen antes del procesamiento: {imagen.shape}")
@@ -49,4 +48,4 @@ def clasificador(imagen):
 
     # Obtener la probabilidad más alta
     probabilidad_max = np.max(prediccion, axis=-1)[0]
-    return clase_predicha, probabilidad_max
+    return clase_predicha, round(probabilidad_max,4)
