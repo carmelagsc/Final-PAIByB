@@ -110,12 +110,12 @@ def analizar_tumor(imagen_segmentada, recorte):
     with col2:
     # Mostrar características de GLCM
         st.subheader("Características GLCM:")
-        st.write(f"Contraste: {contraste}")
-        st.write(f"Homogeneidad: {homogeneidad}")
-        st.write(f"Energía: {energia}")
-        st.write(f"Entropía: {entropia}")
+        st.write(f"Contraste: {contraste:.3f}")
+        st.write(f"Homogeneidad: {homogeneidad:.3f}")
+        st.write(f"Energía: {energia:.3f}")
+        st.write(f"Entropía: {entropia:.3f}")
     with col1:
         # Mostrar los momentos de Hu
         st.subheader("Momentos de Hu:")
         for i, hu in enumerate(hu_moments):
-            st.write(f"Momento de Hu {i + 1}: {hu}")
+            st.write(f"Momento de Hu {i + 1}: {hu:.3f}")
