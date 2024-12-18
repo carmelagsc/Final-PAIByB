@@ -21,9 +21,10 @@ def calcular_textura(imagen_segmentada):
     entropia = graycoprops(glcm, 'correlation')[0, 0]
     
     # Calcular momentos de Hu
-    hu_moments = moments_hu(imagen_segmentada)
+    hu_moment = cv2.HuMoments(cv2.moments(imagen_segmentada)).flatten()
+    log_hu_moments = -np.sign(hu_moment) * np.log10(np.abs(hu_moment))
 
-    return contraste, homogeneidad, energia, entropia, hu_moments
+    return contraste, homogeneidad, energia, entropia, log_hu_moments
 
 def region_growing(image, seed, threshold=0):
     # Verificar si la imagen es 3D (color), convertir a escala de grises si es necesario

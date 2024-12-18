@@ -187,6 +187,39 @@ elif opcion == "Análisis Calcificación":
     else:
         st.warning("Por favor, carga una imagen primero desde la sección 'Cargar Imagen CT'.")
 
+elif opcion == "Análisis Quiste":
+    st.header("Análisis Quiste")
+    if st.session_state.imagen is not None:
+        # Mostrar la imagen cargada en la sección de Análisis
+        st.subheader("Imagen cargada:")
+        st.image(st.session_state.imagen, caption="Imagen para análisis")
+        
+        # Guardar imagen temporalmente para OpenCV
+        tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+        tfile.write(st.session_state.imagen.read())
+
+        # Botón para realizar la selección
+        st.write("Selecciona un área en la imagen que contenga el quiste")
+        if st.button("Realizar selección"):
+            # Capturar selección usando OpenCV
+            roi = seleccionar_area_cv2(tfile.name)
+
+            # Guardar la selección en session_state
+            if roi != (0, 0, 0, 0):  # Verificar que se seleccionó algo
+                x, y, w, h = roi
+                st.session_state.seleccion = (x, y, w, h)
+                st.success(f"Área seleccionada: x={x}, y={y}, ancho={w}, alto={h}")
+
+                # Mostrar la imagen recortada
+                image = cv2.imread(tfile.name)
+                recorte = image[y:y+h, x:x+w]
+                recorte= recorte[:, :, 0] 
+                st.image(recorte, caption="Área seleccionada")
+                analisis_tumor.analizar_tumor(image, recorte)
+
+    else:
+        st.warning("Por favor, carga una imagen primero desde la sección 'Cargar Imagen CT'.")
+
 elif opcion == "Análisis Tumor":
     st.header("Análisis Tumor")
     if st.session_state.imagen is not None:
