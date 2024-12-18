@@ -18,9 +18,9 @@ def detectar_corte(imagen):
     else:
         raise ValueError(f"Dimensiones de imagen no reconocidas: {imagen.shape}")
 
-pesos_por_corte = {
-    'transversal': "best_weights_transversal.weights.h5",
-    'coronal': "best_weights_coronal.weights.h5",
+modelo_por_corte = {
+    'transversal': "my_model_transversal.keras",
+    'coronal': "my_model_coronal.keras",
 }
 
 def preprocess(image):
@@ -34,11 +34,27 @@ def preprocess(image):
 
 def clasificador(imagen):
     tipo_corte = detectar_corte(imagen)
-    path_pesos = pesos_por_corte[tipo_corte]
+    path_modelo = modelo_por_corte[tipo_corte]
 
     imagen= preprocess(imagen)
-    IMG_SIZE = 128
-    print(imagen.shape)
+    
+    modelo = tf.keras.models.load_model(path_modelo)
+    
+    prediccion = modelo.predict(np.expand_dims(imagen, axis=0))
+    print("Predicción:", prediccion)
+
+    clase_predicha = np.argmax(prediccion, axis=1)
+    print("Clase predicha:", clases[clase_predicha[0]])
+
+    # Obtener la probabilidad más alta
+    probabilidad_max = np.max(prediccion, axis=-1)[0]
+
+
+    '''IMG_SIZE = 128
+    print(f"Forma de la imagen después de preprocess: {imagen.shape}")
+    print(f"Forma de la imagen después de expand_dims: {np.expand_dims(imagen, axis=0).shape}")
+
+
     model = tf.keras.models.Sequential([
         tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
         tf.keras.layers.MaxPooling2D(2, 2),
@@ -59,6 +75,7 @@ def clasificador(imagen):
     
     # Realizar predicción
     clasificacion = model.predict(np.expand_dims(imagen, axis=0))
+    
       # Añadir dimensión de batch
     indice_max = np.argmax(clasificacion, axis=-1)[0]
     
@@ -69,5 +86,5 @@ def clasificador(imagen):
     clase_predicha = clases[indice_max]
     
     # Mostrar la clase predicha y la probabilidad
-    print(f"Clase predicha: {clase_predicha} con probabilidad: {probabilidad_max}")
+    print(f"Clase predicha: {clase_predicha} con probabilidad: {probabilidad_max}")'''
     return clase_predicha, probabilidad_max

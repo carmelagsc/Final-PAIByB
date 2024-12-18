@@ -15,9 +15,9 @@ def preprocess(image):
     return image
 
 # Cargar el modelo desde el archivo
-modelo = tf.keras.models.load_model('C:/Users/Equipo/Documents/Final-PAIByB/my_model_transversal.keras')
+modelo = tf.keras.models.load_model('D:/pazar/Documents/Bioingenieria/Quinto/1C/Procesamiento Avanzado de Imágenes/Final/Coronal/my_model_coronal.keras')
 
-imagen=cv2.imread("C:/Users/Equipo/Downloads/Tumor- (3).jpg")
+imagen=cv2.imread("Cyst-(320).jpg")
 imagen=preprocess(imagen)
 prediccion = modelo.predict(np.expand_dims(imagen, axis=0))
 print("Predicción:", prediccion)
