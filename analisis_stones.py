@@ -114,3 +114,22 @@ def region_growing_from_click(image,recorte,radius=5, threshold=0):
 def tamaño_corte(obj, x=0.3, y=0.3): #x e y son los tamaños del pixel
     obj_area=obj*x*y #mm^2
     return obj_area
+
+
+def proba_piedra(tam):
+    if tam < 2:
+        return "85% de chance que pase naturalmente"
+    elif 2 <= tam <= 4:
+        return "80% de chance que pase naturalmente"
+    elif tam == 4:
+        return "80% de chance que pase naturalmente"
+    elif 4 < tam <= 7:
+        return "60% de chance que pase naturalmente"
+    elif 7 < tam < 10:  # Entre 7 mm y 1 cm
+        return "30% de chance que pase naturalmente"
+    elif 10 <= tam <= 20:  # Entre 1 cm y 2 cm
+        return "Intervención quirurgica"
+    elif tam > 20:  # Mayor a 2 cm
+        return "Intervención quirurgica"
+    else:
+        return "Invalid measurement"
