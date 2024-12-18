@@ -44,47 +44,9 @@ def clasificador(imagen):
     print("Predicción:", prediccion)
 
     clase_predicha = np.argmax(prediccion, axis=1)
-    print("Clase predicha:", clases[clase_predicha[0]])
+    clase_predicha = clases[clase_predicha[0]]
+    print("Clase predicha:", clase_predicha)
 
     # Obtener la probabilidad más alta
     probabilidad_max = np.max(prediccion, axis=-1)[0]
-
-
-    '''IMG_SIZE = 128
-    print(f"Forma de la imagen después de preprocess: {imagen.shape}")
-    print(f"Forma de la imagen después de expand_dims: {np.expand_dims(imagen, axis=0).shape}")
-
-
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(256),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Activation('relu'),
-        tf.keras.layers.Dense(4, activation='softmax'),
-    ])
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
-    # Cargar pesos preentrenados
-    model.load_weights(path_pesos)
-    
-    # Realizar predicción
-    clasificacion = model.predict(np.expand_dims(imagen, axis=0))
-    
-      # Añadir dimensión de batch
-    indice_max = np.argmax(clasificacion, axis=-1)[0]
-    
-    # Obtener la probabilidad más alta
-    probabilidad_max = np.max(clasificacion, axis=-1)[0]
-    
-    # Obtener la clase correspondiente
-    clase_predicha = clases[indice_max]
-    
-    # Mostrar la clase predicha y la probabilidad
-    print(f"Clase predicha: {clase_predicha} con probabilidad: {probabilidad_max}")'''
     return clase_predicha, probabilidad_max
