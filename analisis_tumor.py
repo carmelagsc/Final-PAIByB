@@ -105,15 +105,16 @@ def analizar_tumor(imagen_segmentada, recorte):
 
     # Calcular las características de textura y momentos de Hu
     contraste, homogeneidad, energia, entropia, hu_moments = calcular_textura(segmentada_con_textura)
-
+    col1, col2 = st.columns(2)
+    with col2:
     # Mostrar características de GLCM
-    st.subheader("Características GLCM:")
-    st.write(f"Contraste: {contraste}")
-    st.write(f"Homogeneidad: {homogeneidad}")
-    st.write(f"Energía: {energia}")
-    st.write(f"Entropía: {entropia}")
-
-    # Mostrar los momentos de Hu
-    st.subheader("Momentos de Hu:")
-    for i, hu in enumerate(hu_moments):
-        st.write(f"Momento de Hu {i + 1}: {hu}")
+        st.subheader("Características GLCM:")
+        st.write(f"Contraste: {contraste}")
+        st.write(f"Homogeneidad: {homogeneidad}")
+        st.write(f"Energía: {energia}")
+        st.write(f"Entropía: {entropia}")
+    with col1:
+        # Mostrar los momentos de Hu
+        st.subheader("Momentos de Hu:")
+        for i, hu in enumerate(hu_moments):
+            st.write(f"Momento de Hu {i + 1}: {hu}")
