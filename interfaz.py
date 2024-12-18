@@ -13,6 +13,9 @@ if 'imagen' not in st.session_state:
     st.session_state.imagen = None
 if 'seleccion' not in st.session_state:
     st.session_state.seleccion = None
+    # Inicializar session_state para la imagen, selección y habilitación de análisis si no existen
+if 'habilitar_analisis' not in st.session_state:
+    st.session_state.habilitar_analisis = False  # Por defecto, análisis deshabilitado
 
 
 def seleccionar_area_cv2(image_path):
@@ -23,8 +26,14 @@ def seleccionar_area_cv2(image_path):
     return roi  
 
 # Menú lateral
+# Menú lateral
 st.sidebar.title("Menú")
-opcion = st.sidebar.radio("Opciones", ["Cargar Imagen CT", "Clasificación","Análisis Calcificación","Análisis Quiste", "Analisis Tumor"])
+opciones_disponibles = ["Cargar Imagen CT", "Clasificación"]
+if st.session_state.habilitar_analisis:  # Habilitar análisis si la clasificación es "Stone"
+    opciones_disponibles.extend(["Análisis Calcificación", "Análisis Quiste", "Análisis Tumor"])
+opcion = st.sidebar.radio("Opciones", opciones_disponibles)
+#st.sidebar.title("Menú")
+#opcion = st.sidebar.radio("Opciones", ["Cargar Imagen CT", "Clasificación","Análisis Calcificación","Análisis Quiste", "Analisis Tumor"])
 
 # Lógica para cargar imagen
 if opcion == "Cargar Imagen CT":
@@ -71,6 +80,16 @@ elif opcion == "Clasificación":
                     """,
                     unsafe_allow_html=True
                 )
+    
+            if clase == "Stone":
+                st.session_state.habilitar_analisis = True
+                st.success("Clasificación: Stone. El análisis de calcificación está habilitado.")
+            else:
+                st.session_state.habilitar_analisis = False
+                st.info("El análisis de calcificación no está disponible para esta clasificación.")
+        
+    
+    
     else:
         st.warning("Por favor, carga una imagen primero desde la sección 'Cargar Imagen CT'.")
             
