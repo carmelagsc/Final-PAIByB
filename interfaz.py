@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 import tempfile
 import analisis_stones
+import analisis_tumor
 import Clasificador
 
 st.title('Final de PAIByB')
@@ -214,45 +215,7 @@ elif opcion == "Análisis Tumor":
                 recorte = image[y:y+h, x:x+w]
                 recorte= recorte[:, :, 0] 
                 st.image(recorte, caption="Área seleccionada")
-                
-                
-                segmentacion=analisis_stones.clusters(recorte)
-                riñon, px_riñon= analisis_stones.region_growing_from_click(segmentacion, recorte)
-                tam_r=analisis_stones.tamaño_corte(px_riñon)
-                piedra, px_piedra= analisis_stones.region_growing_from_click(segmentacion, recorte)
-                tam_c=analisis_stones.tamaño_corte(px_piedra)
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.image(riñon, caption="Riñon segmentado")
-                with col2:
-                    st.image(piedra,caption="Piedra segmentada")
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color:  rgba(143, 0, 255, 0.5); 
-                        padding: 15px; 
-                        border-radius: 10px; 
-                        text-align: center; 
-                        color: white; 
-                        font-size: 20px; 
-                        margin: auto;">
-                        <b>Riñon:</b> {round(tam_r, 2)} mm2<br>
-                        <b>Piedra:</b> {round(tam_c,2)} mm2
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-            else:
-                st.warning("No se realizó ninguna selección.")
-        
-
-        # Mostrar selección previa si existe
-        if st.session_state.seleccion:
-            st.write(f"Selección guardada: {st.session_state.seleccion}")
-            recorte=st.session_state.seleccion
-            segmentacion=analisis_stones.clusters(recorte)
-            riñon, px_riñon= analisis_stones.region_growing_from_click(segmentacion, recorte)
-            piedra, px_piedra= analisis_stones.region_growing_from_click(segmentacion, recorte)
+                analisis_tumor.analizar_tumor(image, recorte)
 
     else:
         st.warning("Por favor, carga una imagen primero desde la sección 'Cargar Imagen CT'.")
