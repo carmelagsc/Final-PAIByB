@@ -1,3 +1,4 @@
 __pycache__/
 env/
-.keras
+my_model_coronal.keras
+my_model_transversal.keras
