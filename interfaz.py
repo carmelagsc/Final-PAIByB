@@ -84,7 +84,7 @@ elif opcion == "Clasificación":
                         font-size: 20px; 
                         margin: auto;">
                         <b>Clasificación:</b> {clase} <br>
-                        <b>Confianza:</b> {probabilidad * 100} %
+                        <b>Confianza:</b> {probabilidad * 100:.4} %
                     </div>
                     """,
                     unsafe_allow_html=True
